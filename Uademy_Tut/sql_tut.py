@@ -268,9 +268,90 @@ from users
 where registration_date < "2023-02-01" 
 and city = "New York";
 
+use abhidb;
+show databases;
+
+-- Group and segmenting
+
+SELECT CITY, COUNT(*) AS "TOTAL USERS"
+FROM USERS
+GROUP BY CITY;
 
 
+-- find the total amount earned by each driver in the rider table
+select * from rides;
 
+select driver_id, sum(fare_amount + tip_amount) as Total_Amount
+from rides
+group by driver_id;
+
+select driver_id , fare_amount
+from rides;
+
+-- Find the minimum fare amount earned by each driver in the rides table
+
+select driver_id, min(fare_amount) as min_fare_amount
+from rides
+group by driver_id;
+
+-- Find the maximum distance traveled by each driver in the rides table
+select driver_id, max(distance) as max_distance
+from rides
+group by driver_id;
+
+-- Find the average fare amount earned by each driver in the rides table
+
+select driver_id, avg(fare_amount) as avg_fare_amount
+from rides
+group by driver_id;
+
+-- sorting data as per fare amount
+
+select driver_id, sum(fare_amount) as total_fare_amount
+from rides
+group by driver_id
+order by total_fare_amount;
+
+select driver_id, sum(fare_amount) as total_fare_amount
+from rides
+group by driver_id
+order by total_fare_amount desc; -- descending order
+
+-- top three earning of drivers
+
+select driver_id, sum(fare_amount) as total_fare_amount 
+from rides
+group by driver_id
+order by total_fare_amount desc
+limit 4;
+
+select driver_id, sum(fare_amount) as total_fare_amount 
+from rides
+group by driver_id
+-- order by total_fare_amount desc
+limit 3;
+
+-- filter the drivers data by fare amount 
+
+select driver_id, sum(fare_amount) as total_fare_amount 
+from rides 
+group by driver_id
+having total_fare_amount > 20 
+order by total_fare_amount desc
+limit 3;
+
+select * from rides;
+
+select driver_id, sum(fare_amount+tip_amount) as total_amount, sum(fare_amount+tip_amount) * 0.20 as bonus
+from rides
+group by driver_id;
+
+select concat(pickup_location ," ---to--- ", dropoff_location) as trip
+from rides;
+
+select fare_amount, tip_amount, (fare_amount+tip_amount) as addition, concat(fare_amount ,tip_amount) as trip
+from rides;
+ 
 
 
 
