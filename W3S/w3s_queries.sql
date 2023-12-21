@@ -129,7 +129,21 @@ select * from customer
 where cust_name like 'd%k';
 
 select * from customer
-where cust_name like 'a%t';
+where cust_name like '%di%';
+
+SELECT * FROM Customer
+WHERE cust_City not LIKE 'L_n_on';
+
+SELECT * FROM Customer
+WHERE cust_name LIKE 'd%' OR cust_name LIKE 'a%' OR cust_name LIKE 'c%';
+
+-- in opeartor 
+
+SELECT * FROM Customer
+WHERE cust_country in ('uk','usa');
+
+SELECT * FROM Customer
+WHERE cust_country not in ('uk','usa');
 
 select * from customer;
 
