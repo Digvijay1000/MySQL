@@ -1,3 +1,6 @@
+show databases;
+use mocdb;
+
 select * 
 from customer; 
 
@@ -41,19 +44,19 @@ from customer
 order by cust_code desc;
 
 SELECT * FROM Customer
-ORDER BY cust_Country, Cust_Name DESc;
+ORDER BY cust_Country, Cust_Name desc;
 
 show tables;
 
 select * from customer;
 
 insert into customer
-values ("C00026", "DIAPK","AMBAK", "KOPARKHIRANE", "INDIA", "1", "7000", "10000", "100000", "900000", "8600261039", "A013");
+values ("C00027", "Digvijay","Manjarde", "Narhe", "INDIA", "1", "9000", "10000", "100000", "1000000", "9175535381", "A018");
 
 SET SQL_SAFE_UPDATES = 0;
 
 update customer
-set cust_name = "Digvijay" , Cust_city="Pune", cust_country = "India"
+set cust_name = "Dipak" , Cust_city="Ambak", cust_country = "India"
 where cust_code = "C00024";
 
 update customer
@@ -66,6 +69,7 @@ limit 3;
 
 SELECT * FROM Customer
 WHERE cust_Country='india'
+order by cust_code
 LIMIT 7;
 
 select min(opening_amt) as min_amout
@@ -138,6 +142,8 @@ SELECT * FROM Customer
 WHERE cust_name LIKE 'd%' OR cust_name LIKE 'a%' OR cust_name LIKE 'c%';
 
 -- in opeartor 
+SELECT * FROM Customer
+WHERE cust_name in ('bolt' ,'karl');
 
 SELECT * FROM Customer
 WHERE cust_country in ('uk','usa');
@@ -147,7 +153,31 @@ WHERE cust_country not in ('uk','usa');
 
 select * from customer;
 
+-- between opeartor
 
+select * 
+from customer
+where OUTSTANDING_AMT between 2000 and 6000;
+
+select * 
+from customer
+where OUTSTANDING_AMT not between 2000 and 6000;
+
+select * from customer
+where OUTSTANDING_AMT not between 2000 and 6000
+order by OUTSTANDING_AMT;
+
+select * from customer
+where AGENT_CODE between "A003" and "A009";
+
+-- BETWEEN With IN 
+select * from customer
+where grade between 1 and 2
+and not cust_country in ('India');
+
+select * from customer
+where grade between 1 and 2
+and cust_country in ('India');
 
 
 

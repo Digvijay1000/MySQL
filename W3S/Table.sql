@@ -238,6 +238,7 @@ INSERT INTO `studentreport` (`CLASS`, `SECTION`, `ROLLID`, `GRADE`, `SEMISTER`, 
 ('V    ', 'A', '15', 'AA   ', '2Nd  ', '85');
 
 
+SHOW GRANTS FOR 'root'@'localhost';
 
 
 
