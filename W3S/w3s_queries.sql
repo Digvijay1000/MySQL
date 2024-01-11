@@ -179,5 +179,161 @@ select * from customer
 where grade between 1 and 2
 and cust_country in ('India');
 
+-- alis 
+
+select cust_code as "ID" , cust_name as "Name"
+from customer;
+
+select cust_name as CN, WORKING_AREA AS WA from customer;
+
+select concat(cust_name, cust_city, working_area, cust_country) as Customer_Details
+from customer;
+
+select concat_ws(' - ',cust_name, cust_city, working_area, cust_country) as Customer_Details
+from customer;
+
+-- Alis for table example
+/* Aliases can be useful when:
+1. There are more than one table involved in a query
+2. Functions are used in the query
+3. Column names are big or not very readable
+4. Two or more columns are combined together */
+
+select * from customer;
+select * from daysorder;
+
+select c.cust_name, d.ord_date
+from customer as c, daysorder as d;
+
+select c.cust_name, d.ord_date
+from customer as c, daysorder as d
+where c.cust_name='Digvijay' and d.advance_amount = 1000;
+
+-- SQL Joins
+/* 
+SYNTAX : 
+SELECT column_name(s)
+FROM table1
+INNER JOIN table2 ON table1.column_name = table2.column_name;
+*/
 
 
+/* 
+Here are the different types of the JOINs in SQL:
+1. (INNER) JOIN: Returns records that have matching values in both tables
+2. LEFT (OUTER) JOIN: Return all records from the left table, and the matched records from the right table
+3. RIGHT (OUTER) JOIN: Return all records from the right table, and the matched records from the left table
+4. FULL (OUTER) JOIN: Return all records when there is a match in either left or right table 
+*/
+
+-- 1.(INNER) JOIN: Returns records that have matching values in both tables
+select * from orders;
+select * from customer;
+
+select orders.ord_num, customer.cust_name, orders.ord_date
+from orders
+inner join customer on orders.cust_code = customer.cust_code;
+
+select c.cust_name, o.ord_date, o.ord_amount
+from orders as o
+inner join customer as c on o.cust_code = c.cust_code;
+
+select concat(c.cust_name, ' - ', c.cust_city, ' - ', c.working_area) as customer_details, d.ord_date, d.ord_amount
+from daysorder as d
+inner join customer as c on d.cust_code = c.cust_code;
+
+-- 2. LEFT (OUTER) JOIN: Return all records from the left table, and the matched records from the right table
+
+/*
+SELECT column_name(s)
+FROM table1
+LEFT JOIN table2 ON table1.column_name = table2.column_name;
+*/
+
+select c.cust_name, d.ord_amount
+from customer as c
+left join daysorder as d on c.cust_code = d.cust_code;
+
+select concat(c.cust_name, ' - ', c.cust_city, ' - ', c.working_area) as customer_details, d.ord_date, d.ord_amount
+from customer as c
+left join daysorder as d on d.cust_code = c.cust_code;
+
+-- 3. RIGHT (OUTER) JOIN: Return all records from the right table, and the matched records from the left table
+
+/*
+SELECT coulumns()
+FROM Table1
+RIGHT JOIN Table2 on Table1.coulmn_name = Table2.column_name
+*/
+select count(cust_code) from customer; -- 29
+select count(cust_code) from orders; -- 36
+
+select c.cust_name, c.cust_city, o.ord_amount, o.advance_amount
+from customer as c
+right join orders as o on c.cust_code = o.cust_code;
+
+select c.cust_name, c.cust_city, o.ord_amount, o.advance_amount
+from orders as o
+right join customer as c on c.cust_code = o.cust_code;
+
+-- 4. FULL (OUTER) JOIN: Return all records when there is a match in either left or right table 
+
+/*
+SELECT Columns()
+FROM Table1
+LEFT JOIN Table2 ON Table1.ColumnName = Table2.ColumnName
+UNION
+SELECT Columns()
+FROM Table1
+RIGHT JOIN Table2 ON Table1.ColumnName = Table2.ColumnName;
+*/
+
+select * from orders;
+select * from customer;
+
+SELECT c.cust_name, o.advance_amount, o.ord_amount 
+FROM customer as c
+LEFT JOIN orders o ON c.cust_code = o.cust_code
+UNION  
+SELECT c.cust_name, o.advance_amount, o.ord_amount
+FROM customer as c 
+RIGHT JOIN orders o ON c.cust_code = o.cust_code;
+
+SELECT c.cust_name, o.advance_amount, o.ord_amount 
+FROM customer as c
+LEFT JOIN orders as o ON c.cust_code = o.cust_code
+UNION  
+SELECT c.cust_name, o.advance_amount, o.ord_amount
+FROM customer as c 
+RIGHT JOIN orders as o ON c.cust_code = o.cust_code
+order by cust_name;
+
+-- SQL SELF JOIN
+select * from customer as c , orders as o
+where o.cust_code <> c.cust_code; -- <> => !=
+
+-- UNION 
+/*
+SYNTAX: 
+SELECT column_name(s) FROM table1
+UNION
+SELECT column_name(s) FROM table2;
+
+The UNION operator is used to combine the result-set of two or more SELECT statements.
+	Each SELECT statement within UNION must have the same number of columns
+	The columns must also have similar data types
+	The columns in each SELECT statement must also be in the same orde
+*/
+
+-- UNION ALL
+/*
+SYNTAX: 
+SELECT column_name(s) FROM table1
+UNION
+SELECT column_name(s) FROM table2;
+
+The UNION operator selects only distinct values by default. To allow duplicate values, use UNION ALL:
+
+*/
+
+-- GROUP BY 
