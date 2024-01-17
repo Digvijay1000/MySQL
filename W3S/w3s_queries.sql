@@ -51,17 +51,17 @@ show tables;
 select * from customer;
 
 insert into customer
-values ("C00027", "Digvijay","Manjarde", "Narhe", "INDIA", "1", "9000", "10000", "100000", "1000000", "9175535381", "A018");
+values ("C00028", "Abhimanyu","Manjarde", "Narhe", "INDIA", "1", "10000", "110000", "110000", "1100000", "9175535381", "A019");
 
 SET SQL_SAFE_UPDATES = 0;
 
 update customer
-set cust_name = "Dipak" , Cust_city="Ambak", cust_country = "India"
-where cust_code = "C00024";
+set cust_name = "LALASHET" , Cust_city="MUMBAI", cust_country = "India"
+where cust_code = "C00026";
 
 update customer
-set working_area = "Pune"
-where working_area = "KOPARKHIRANE";
+set working_area = "KOPARKHIRANE"
+where working_area = "PUNE";
 
 select * 
 from customer
@@ -177,6 +177,10 @@ and not cust_country in ('India');
 
 select * from customer
 where grade between 1 and 2
+and not cust_country in ('uk');
+
+select * from customer
+where grade between 1 and 2
 and cust_country in ('India');
 
 -- alis 
@@ -205,9 +209,10 @@ select * from daysorder;
 select c.cust_name, d.ord_date
 from customer as c, daysorder as d;
 
-select c.cust_name, d.ord_date
+select c.cust_name , d.ord_date
 from customer as c, daysorder as d
-where c.cust_name='Digvijay' and d.advance_amount = 1000;
+where cust_name = 'Dipak';
+
 
 -- SQL Joins
 /* 
@@ -230,6 +235,10 @@ Here are the different types of the JOINs in SQL:
 select * from orders;
 select * from customer;
 
+select o.ord_date, c.cust_name, o.ord_amount
+from daysorder as o
+inner join customer as c on o.cust_code = c.cust_code;
+
 select orders.ord_num, customer.cust_name, orders.ord_date
 from orders
 inner join customer on orders.cust_code = customer.cust_code;
@@ -237,6 +246,10 @@ inner join customer on orders.cust_code = customer.cust_code;
 select c.cust_name, o.ord_date, o.ord_amount
 from orders as o
 inner join customer as c on o.cust_code = c.cust_code;
+
+select customer.cust_name, customer.working_area, daysorder.ord_amount
+from customer
+inner join daysorder on customer.cust_code = daysorder.cust_code;
 
 select concat(c.cust_name, ' - ', c.cust_city, ' - ', c.working_area) as customer_details, d.ord_date, d.ord_amount
 from daysorder as d
@@ -337,3 +350,80 @@ The UNION operator selects only distinct values by default. To allow duplicate v
 */
 
 -- GROUP BY 
+/* 
+The GROUP BY statement is often used with aggregate functions (COUNT, MAX, MIN, SUM, AVG) to
+group the result-set by one or more columns
+*/
+
+select * from customer; 
+
+select count(cust_name), working_area
+from customer
+group by working_area;
+
+select count(cust_name), cust_country 
+from customer
+group by cust_country
+order by count(cust_name);
+
+select * from customer;
+
+select count(grade), cust_country
+from customer
+group by cust_country
+order by count(grade);
+
+select count(opening_amt), cust_country
+from customer
+where opening_amt = 5000
+group by cust_country;
+
+select * from customer;
+
+select count(cust_country), cust_country
+from customer
+group by cust_country
+order by count(cust_country);
+
+-- group by join
+
+select count(customer.cust_name), daysorder.ord_num
+from customer
+left join daysorder on customer.cust_code = daysorder.cust_code
+group by daysorder.ord_num;
+
+-- group by having
+
+select count(cust_name), cust_country
+from customer
+group by cust_country
+having cust_country = 'India'
+order by count(cust_name);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
