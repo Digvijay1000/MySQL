@@ -465,10 +465,55 @@ where cust_country = 'india';
 
 select * from customer_backup2;
 
----
+-- CREATE DATABASE STATEMENT
 
+show databases;
+use mocdb;
+create database sampledb;
+create database sample2;
 
+-- DROP DATABASE STATEMENT
 
+drop database sample2;
+drop database sampledb;
 
+-- CREATE TABLE 
+/*
+CREATE TABLE table_name (
+    column1 datatype,
+    column2 datatype,
+    column3 datatype,
+   ....);
+*/
 
+create table Persons(PersonID int,
+					 Fname varchar(255),
+                     Lname varchar(255),
+                     Addrs varchar(255),
+                     City varchar(255));
+
+select * from Persons;
+
+-- create table by using another table
+
+create table info
+select cust_name, working_area, cust_city, cust_country
+from customer;
+
+create table info_india
+select cust_name, working_area, cust_city, cust_country
+from customer
+where cust_country = 'India'
+order by cust_name;
+
+-- DROP TABLE
+-- The DROP TABLE statement is used to drop an existing table in a database.
+
+drop table despatch;
+
+-- TRUNCATE TABLE 
+-- The TRUNCATE TABLE statement is used to delete the data inside a table, but not the table itself 
+
+select * from info;
+truncate table info;
 
