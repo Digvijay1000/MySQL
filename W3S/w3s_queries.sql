@@ -400,27 +400,72 @@ group by cust_country
 having cust_country = 'India'
 order by count(cust_name);
 
+select * from customer;
 
+select count(working_area), cust_country
+from customer
+group by cust_country
+having count(working_area) <= 15;
 
+SELECT 
+    COUNT(grade), working_area
+FROM
+    customer
+GROUP BY working_area
+HAVING COUNT(grade) > 2
+ORDER BY COUNT(grade);
 
+-- SQL SELECT INTO 
+-- The SELECT INTO statement copies data from one table into a new table.
+/* SYNTAX:
+SELECT *
+INTO newtable [IN externaldb]
+FROM oldtable
+WHERE condition;
+*/
 
+/*
+select *
+into customer_backup
+from customer;
 
+select * from customer_backup;
+-- not working in my system
+*/
 
+-- SQL INSERT INTO SELECT STATEMENT
+/*
+The INSERT INTO SELECT statement copies data from one table and inserts it into another table.
+1. INSERT INTO SELECT requires that data types in source and target tables match
+2. The existing records in the target table are unaffected
 
+INSERT INTO SELECT Syntax:
 
+Copy all columns from one table to another table:
 
+INSERT INTO table2
+SELECT * FROM table1
+WHERE condition;
+*/
 
+insert INTO customer_backup
+select * from customer;
 
+select count(*) from customer;
+select count(*) from customer_backup;
 
+insert into listofitem
+select * from foods;
 
+select * from listofitem;
 
+insert into customer_backup2
+select * from customer
+where cust_country = 'india';
 
+select * from customer_backup2;
 
-
-
-
-
-
+---
 
 
 
