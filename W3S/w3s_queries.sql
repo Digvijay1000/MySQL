@@ -517,3 +517,233 @@ drop table despatch;
 select * from info;
 truncate table info;
 
+show databases;
+use mocdb;
+
+-- ALTER TABLE 
+/*
+The ALTER TABLE statement is used to add, delete, or modify columns in an existing table.
+The ALTER TABLE statement is also used to add and drop various constraints on an existing table
+*/
+
+/* SYNTAX :
+
+1. ADD column :
+				ALTER TABLE table_name
+                ADD COLUMN column_name datatype; 
+                
+2. DROP column :
+				ALTER TABLE table_name
+                DROP COLUMN column_name;
+                
+3.  MODIFY column:
+				ALTER TABLE table_name
+                ALTER/MODIFY COLUMN column_name datatype;
+*/
+SELECT * FROM INFO;
+
+ALTER TABLE INFO
+ADD COLUMN CUST_SURNAME VARCHAR(255);     
+
+ALTER TABLE INFO
+DROP COLUMN CUST_CITY;
+
+ALTER TABLE INFO
+MODIFY COLUMN CUST_SURNAMEN INT;
+
+SELECT * FROM ORDERS;
+
+ALTER TABLE ORDERS
+ADD COLUMN FINAL_ORDER INT;
+
+ALTER TABLE ORDERS
+MODIFY COLUMN FINAL_ORDER VARCHAR(255);
+
+ALTER TABLE ORDERS
+DROP COLUMN FINAL_ORDER;
+
+-- SQL CONSTRAINTS
+
+/*
+-  SQL constraints are used to specify rules for data in a table & limit the type of data that can go into a table.
+- Constraints can be column level or table level. Column level constraints apply to a column, 
+  and table level constraints apply to the whole table
+
+- The following constraints are commonly used in SQL:
+1. NOT NULL - Ensures that a column cannot have a NULL value.
+2. UNIQUE - Ensures that all values in a column are different.
+3. PRIMARY KEY - A combination of a NOT NULL and UNIQUE. Uniquely identifies each row in a table.
+4. FOREIGN KEY - Uniquely identifies a row/record in another table.
+5. CHECK - Ensures that all values in a column satisfies a specific condition.
+6. DEFAULT - Sets a default value for a column when no value is specified.
+7. INDEX - Use to create and retrieve data from the database very quickly.
+*/
+
+-- NOT NULL :
+-- NOT accept NULL values
+
+CREATE TABLE PERSONS2(
+ID INT NOT NULL,
+FNAME VARCHAR(255) NOT NULL,
+LNAME VARCHAR(255) NOT NULL,
+Age int); -- Tip: If the table has already been created, you can add a NOT NULL constraint to a column with the ALTER TABLE statement
+
+ALTER TABLE PERSONS2
+MODIFY COLUMN AGE INT NOT NULL;
+
+-- UNIQUE CONSTRAINT 
+
+/* 
+The UNIQUE constraint ensures that all values in a column are different.
+A PRIMARY KEY constraint automatically has a UNIQUE constraint.
+However, you can have many UNIQUE constraints per table, but only one PRIMARY KEY
+constraint per table.
+*/
+
+CREATE TABLE PERSONS3(
+ID INT NOT NULL UNIQUE,
+FNAME VARCHAR(255) NOT NULL,
+LNAME VARCHAR(255) NOT NULL,
+AGE INT NOT NULL);
+
+--  OR 
+
+CREATE TABLE Persons4 (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    UNIQUE (ID)
+);
+
+-- SQL UNIQUE STATEMENT ON ALTER TABLE
+ ALTER TABLE PERSONS4
+ ADD UNIQUE(ID);
+ 
+ -- To name a UNIQUE constraint, and to define index a UNIQUE constraint on multiple columns (column type must be same)
+  ALTER TABLE Persons5
+ ADD CONSTRAINT UC_Person2 UNIQUE (ID,LastName);
+
+ CREATE TABLE persons5 (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+CONSTRAINT UC_Person UNIQUE (ID,LastName)
+);
+
+--  DROP a UNIQUE CONSTRAINT
+
+ALTER TABLE Persons5
+DROP INDEX UC_Person2;
+-- or
+ALTER TABLE PERSONS5
+DROP CONSTRAINT UC_Person2;
+
+-- PRIMARY KEY 
+/*
+The PRIMARY KEY constraint uniquely identifies each record in a database table.
+Primary keys must contain UNIQUE values, and cannot contain NULL values.
+*/
+
+CREATE TABLE TEAMINDIA(
+PNAME VARCHAR(25) NOT NULL,
+JIRCYNO INT NOT NULL,
+PRIMARY KEY (JIRCYNO));
+
+CREATE TABLE TEAMINDIA2(
+PNAME VARCHAR(25) NOT NULL PRIMARY KEY,
+JIRCYNO INT NOT NULL);
+
+ALTER TABLE TEAMINDIA2
+DROP PRIMARY KEY;
+
+ALTER TABLE TEAMINDIA2
+ADD PRIMARY KEY (JIRCYNO);
+
+ALTER TABLE PERSONS5
+ADD CONSTRAINT PK_PERSONS5 PRIMARY KEY (ID,LASTNAME);
+
+ALTER TABLE PERSONS5
+DROP CONSTRAINT PK_PERSONS5;
+
+-- FOREIGN KEY 
+/*
+A FOREIGN KEY is a key used to link two tables together.
+A FOREIGN KEY in a table points to a PRIMARY KEY in another table
+
+FOR EXAMPLE 
+The "PersonID" column in the "Persons" table is the PRIMARY KEY in the "Persons" table.
+The "PersonID" column in the "Orders" table is a FOREIGN KEY in the "Orders" table
+*/
+create table persons6(
+personid varchar(5) primary key,
+fname varchar(20),
+lname varchar(10),
+addrs varchar(50),
+city varchar(15));
+
+CREATE TABLE Orders3 (
+    OrderID int NOT NULL,
+    OrderNumber int NOT NULL,
+    PersonID varchar(5),
+PRIMARY KEY (OrderID),
+FOREIGN KEY (PersonID) REFERENCES Persons6(PersonID)
+);
+-- or 
+CREATE TABLE Orders2 (
+    OrderID int NOT NULL,
+    OrderNumber int NOT NULL,
+    PersonID int,
+PRIMARY KEY (OrderID),
+CONSTRAINT FK_PersonOrder FOREIGN KEY (PersonID) -- created index
+REFERENCES Persons6(PersonID)
+);
+
+ALTER TABLE Orders3
+ADD FOREIGN KEY (PersonID) REFERENCES Persons6(PersonID);
+
+ALTER TABLE Orders
+DROP FOREIGN KEY FK_PersonOrder;
+
+-- CHECK CONSTRAINT
+/*
+The CHECK constraint is used to limit the value range that can be placed in a column.
+
+If you define a CHECK constraint on a single column it allows only certain values for this
+column.
+
+If you define a CHECK constraint on a table it can limit the values in certain columns
+based on values in other columns in the row.
+*/
+
+CREATE TABLE CLIENT (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+CHECK (Age>=18)
+);
+-- OR
+CREATE TABLE CLIENT2 (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int CHECK (Age>=18)
+);
+
+ALTER TABLE Persons
+ADD CHECK (Age>=18);
+
+ALTER TABLE Persons
+DROP CHECK CHK_PersonAge;
+
+-- DEFAULT CONSTRAINT
+
+
+
+
+
+
+
+                                                                                                       
